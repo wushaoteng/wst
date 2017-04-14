@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="APP_NAME" value="topKN" />
+    <property name="LOG_PATH" value="/home/admin/logs/71263qsvb5" />
+    <property name="WARN_LOG_FILE" value="/home/admin/logs/71263qsvb5/teser-71263qsvb5-WARN.log" />
+    <property name="ERROR_LOG_FILE" value="/home/admin/logs/71263qsvb5/teser-71263qsvb5-ERROR.log" />
+
+    <appender name="WARN_APPENDER"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${WARN_LOG_FILE}</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} -
+                %msg%n</pattern>
+            <charset>utf8</charset>
+        </encoder>
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${WARN_LOG_FILE}.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+            <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="ERROR_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${ERROR_LOG_FILE}</file>
+        <encoder>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} [%X{traceId}|%X{rpcId}|%X{opId}|%X{accountId}] %-5level [%thread]:%C:%L:%M %m%n
+            </pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${ERROR_LOG_FILE}.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+            <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <logger name="com.alibaba.middleware.race" additivity="false">
+        <level value="ERROR"/>
+        <appender-ref ref="ERROR_APPENDER"/>
+    </logger>
+
+    <logger name="com.alibaba.middleware.race" additivity="false">
+        <level value="WARN"/>
+        <appender-ref ref="WARN_APPENDER"/>
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+    </root>
+
+</configuration>
