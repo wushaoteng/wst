@@ -1,0 +1,2 @@
+# wst
+my learn program
